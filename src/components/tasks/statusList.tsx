@@ -44,7 +44,7 @@ export function StatusList({ tasks, status }: StatusListProps) {
         <ScrollView horizontal showsHorizontalScrollIndicator>
           <View>
             {/* Cabeçalho das tarefas */}
-            <View className="flex-row items-center gap-6 px-4 bg-zinc-800">
+            <View className="flex-row items-center gap-6 px-4 bg-zinc-800 border-b-2">
               <Text className="header-table header-table-width border-r border-zinc-900">
                 Name
               </Text>

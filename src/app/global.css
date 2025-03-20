@@ -9,3 +9,15 @@
 .header-table-width {
   @apply w-32;
 }
+
+.form-field {
+  @apply mb-4;
+}
+
+.form-text-input {
+  @apply border-zinc-600 placeholder:text-zinc-600;
+}
+
+.form-input-error {
+  @apply text-red-600 text-xs mt-1;
+}

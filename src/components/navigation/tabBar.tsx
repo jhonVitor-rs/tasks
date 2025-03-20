@@ -5,8 +5,8 @@ import { TabBarButtom } from "./tabBarButtons";
 const excludeRoutes = ["_sitemap", "+not-found"];
 
 export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
-  const primaryColor = "#0092b8";
-  const secondaryColor = "#a5f3fc";
+  const primaryColor = "#6366f1";
+  const secondaryColor = "#e4e4e7";
 
   const currentRouteName = state.routes[state.index].name;
   const shouldHideTabBar = excludeRoutes.includes(currentRouteName);
