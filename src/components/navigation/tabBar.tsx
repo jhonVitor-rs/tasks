@@ -16,7 +16,7 @@ export function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
       style={{
         display: shouldHideTabBar ? "none" : "flex",
       }}
-      className="absolute bottom-0 py-2 flex-row justify-between items-center bg-zinc-800 shadow-black/10"
+      className="absolute bottom-0 py-2 flex-row justify-between items-center bg-zinc-900 shadow-black/10"
     >
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];

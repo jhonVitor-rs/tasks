@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.header-table {
+  @apply text-zinc-400 font-medium text-base;
+}
+
+.header-table-width {
+  @apply w-32;
+}

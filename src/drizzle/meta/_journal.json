@@ -8,6 +8,13 @@
       "when": 1742415314417,
       "tag": "0000_dizzy_swarm",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1742472748642,
+      "tag": "0001_sour_karma",
+      "breakpoints": true
     }
   ]
 }
