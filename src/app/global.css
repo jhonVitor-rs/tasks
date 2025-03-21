@@ -21,3 +21,15 @@
 .form-input-error {
   @apply text-red-600 text-xs mt-1;
 }
+
+.form-date-container {
+  @apply flex-1 flex-row items-center justify-between gap-2 bg-zinc-800  border-2 border-zinc-600 rounded pr-2;
+}
+
+.form-date-input {
+  @apply flex-1 p-2;
+}
+
+.form-date-text {
+  @apply text-zinc-500 text-lg font-medium;
+}

@@ -52,6 +52,18 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
   const startDate = watch("startDate");
   const endDate = watch("endDate");
 
+  const onDatesChange = ({
+    newStartDate,
+    newEndDate,
+  }: {
+    newStartDate?: Date;
+    newEndDate?: Date;
+  }) => {
+    if (newStartDate)
+      setValue("startDate", newStartDate, { shouldValidate: true });
+    if (newEndDate) setValue("endDate", newEndDate, { shouldValidate: true });
+  };
+
   return (
     <DrawerBotton open={open} setHide={setHide}>
       <View className="p-4">
@@ -111,12 +123,18 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
             <Text className="text-zinc-200 font-medium text-lg">
               {!startDate && !endDate
                 ? "Set dates"
-                : `${startDate && startDate.toLocaleDateString()} ${
-                    endDate && "-" + endDate.toLocaleDateString()
-                  }`}
+                : `${startDate ? startDate.toLocaleDateString() : ""}${
+                    startDate && endDate ? " - " : ""
+                  }${endDate ? endDate.toLocaleDateString() : ""}`}
             </Text>
           </TouchableOpacity>
-          <DatePicker open={openDatePicker} setHide={hideDatePicker} />
+          <DatePicker
+            open={openDatePicker}
+            setHide={hideDatePicker}
+            startDate={startDate}
+            endDate={endDate}
+            onDatesChange={onDatesChange}
+          />
         </View>
       </View>
     </DrawerBotton>

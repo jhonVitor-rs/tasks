@@ -48,7 +48,7 @@ export function DrawerBotton({
       animationType="none"
       onRequestClose={setHide}
     >
-      <View className="flex-1 bg-black/80">
+      <View className="flex-1 bg-black/40">
         <TouchableWithoutFeedback onPress={setHide}>
           <View className="flex-1" />
         </TouchableWithoutFeedback>
