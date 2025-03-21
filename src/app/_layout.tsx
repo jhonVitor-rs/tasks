@@ -13,7 +13,10 @@ function App() {
 
 export default function RootLayout() {
   return (
-    <SQLiteProvider databaseName="tasks.db">
+    <SQLiteProvider
+      databaseName="tasks.db"
+      options={{ enableChangeListener: true }}
+    >
       <App />
     </SQLiteProvider>
   );

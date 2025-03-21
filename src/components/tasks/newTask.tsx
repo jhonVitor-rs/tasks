@@ -2,8 +2,8 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubTask } from "@/db/schemas/subtasks";
-import { Task } from "@/db/schemas/task";
+import { NewSubTask, SubTask } from "@/db/schemas/subtasks";
+import { NewTask, Task } from "@/db/schemas/task";
 import { DrawerBotton } from "../ui/drawerBotton";
 import { taskStatus } from "@/constants/status";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
@@ -17,7 +17,7 @@ interface TaskEditorProps {
   open: boolean;
   setHide: () => void;
   task?: Task | SubTask;
-  onSave: (task: Task | SubTask) => void;
+  onSave: (task: NewTask | NewSubTask) => void;
 }
 
 const taskForm = z.object({
@@ -44,6 +44,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
     formState: { errors },
     setValue,
     watch,
+    reset,
   } = useForm<z.infer<typeof taskForm>>({
     resolver: zodResolver(taskForm),
     defaultValues: {
@@ -74,6 +75,17 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
   const onStatusChange = (s: taskStatus) => {
     setValue("status", s, { shouldValidate: true });
   };
+
+  const onSubmit = handleSubmit((data) => {
+    onSave({
+      taskId: (task as SubTask)?.taskId || 0,
+      name: data.name,
+      body: data.body,
+      status,
+      startDate,
+      endDate,
+    });
+  });
 
   return (
     <DrawerBotton open={open} setHide={setHide}>
@@ -139,6 +151,14 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
                     startDate && endDate ? " - " : ""
                   }${endDate ? endDate.toLocaleDateString() : ""}`}
             </Text>
+            {errors.startDate && (
+              <Text className="form-input-error">
+                {errors.startDate.message}
+              </Text>
+            )}
+            {errors.endDate && (
+              <Text className="form-input-error">{errors.endDate.message}</Text>
+            )}
           </TouchableOpacity>
           <DatePicker
             open={openDatePicker}
@@ -160,12 +180,30 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
               {formatStatusLabel(status)}
             </Text>
           </TouchableOpacity>
+          {errors.status && (
+            <Text className="form-input-error">{errors.status.message}</Text>
+          )}
           <StatusChange
             open={openStatusPicker}
             setHide={hideStatusPicker}
             status={status}
             onStatusChange={onStatusChange}
           />
+        </View>
+
+        <View className="flex-row items-center justify-around gap-2 mt-4">
+          <TouchableOpacity
+            onPress={setHide}
+            className="flex-1 bg-zinc-800 border-2 border-zinc-600 rounded-xl p-2 items-center"
+          >
+            <Text className="text-zinc-200 text-xl">Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onSubmit}
+            className="flex-1 bg-indigo-800 border-2 border-indigo-600 rounded-xl p-2 items-center"
+          >
+            <Text className="text-zinc-200 text-xl">Save</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </DrawerBotton>

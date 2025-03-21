@@ -2,17 +2,12 @@ import { useState } from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { taskStatus } from "@/constants/status";
-import { SubTask } from "@/db/schemas/subtasks";
 import { Task } from "@/db/schemas/task";
 import { formatStatusLabel } from "@/utils/formatTaskStatus";
 import { StatusColor } from "@/utils/taskStatusColor";
 
-interface TaskWithSubTasks extends Task {
-  subTasks: SubTask[];
-}
-
 interface StatusListProps {
-  tasks: TaskWithSubTasks[];
+  tasks: Task[];
   status: taskStatus;
 }
 

@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
+import { openDatabaseSync, useSQLiteContext } from "expo-sqlite";
 import { useEffect } from "react";
 import { ActivityIndicator, Alert, Text, View } from "react-native";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
@@ -9,7 +9,7 @@ import migrations from "@/drizzle/migrations";
 export default function Main() {
   const router = useRouter();
 
-  const expoDB = useSQLiteContext();
+  const expoDB = openDatabaseSync("tasks.db", { enableChangeListener: true });
   const db = drizzle(expoDB);
   const { success, error } = useMigrations(db, migrations);
 

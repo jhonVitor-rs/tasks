@@ -15,6 +15,20 @@
       "when": 1742472748642,
       "tag": "0001_sour_karma",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1742576871416,
+      "tag": "0002_famous_electro",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1742581554561,
+      "tag": "0003_flaky_vance_astro",
+      "breakpoints": true
     }
   ]
 }
