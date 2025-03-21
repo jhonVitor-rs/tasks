@@ -32,7 +32,6 @@ export function DatePicker({
   endDate,
   onDatesChange,
 }: DatePickerProps) {
-  const [date, setDate] = useState<DateData>();
   const [selectedStartDate, setSelectedStartDate] = useState<DateData>();
   const [selectedEndDate, setSelectedEndDate] = useState<DateData>();
   const [selectedDate, setSelectedDate] = useState<"stardDate" | "endDate">(

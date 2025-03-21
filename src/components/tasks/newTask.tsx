@@ -9,6 +9,9 @@ import { taskStatus } from "@/constants/status";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { useState } from "react";
 import { DatePicker } from "./datePicker";
+import { formatStatusLabel } from "@/utils/formatTaskStatus";
+import { StatusColor } from "@/utils/taskStatusColor";
+import { StatusChange } from "./statusChange";
 
 interface TaskEditorProps {
   open: boolean;
@@ -32,6 +35,9 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
   const [openDatePicker, setOpenDatePicker] = useState(false);
   const hideDatePicker = () => setOpenDatePicker(false);
 
+  const [openStatusPicker, setOpenStatusPicker] = useState(false);
+  const hideStatusPicker = () => setOpenStatusPicker(false);
+
   const {
     control,
     handleSubmit,
@@ -51,6 +57,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
 
   const startDate = watch("startDate");
   const endDate = watch("endDate");
+  const status = watch("status") as taskStatus;
 
   const onDatesChange = ({
     newStartDate,
@@ -62,6 +69,10 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
     if (newStartDate)
       setValue("startDate", newStartDate, { shouldValidate: true });
     if (newEndDate) setValue("endDate", newEndDate, { shouldValidate: true });
+  };
+
+  const onStatusChange = (s: taskStatus) => {
+    setValue("status", s, { shouldValidate: true });
   };
 
   return (
@@ -80,6 +91,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
               <TextInput
                 className="form-text-input border-b-2 text-xl font-semibold text-zinc-500"
                 placeholder="Untitled Task"
+                focusable
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
@@ -134,6 +146,25 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
             startDate={startDate}
             endDate={endDate}
             onDatesChange={onDatesChange}
+          />
+        </View>
+
+        {/* Status change */}
+        <View className="form-field">
+          <TouchableOpacity
+            onPress={() => setOpenStatusPicker(true)}
+            className="flex-row items-center p-2 rounded-lg border-2 border-zinc-600"
+            style={{ backgroundColor: StatusColor(status) }}
+          >
+            <Text className="text-zinc-200 text-xl font-semibold">
+              {formatStatusLabel(status)}
+            </Text>
+          </TouchableOpacity>
+          <StatusChange
+            open={openStatusPicker}
+            setHide={hideStatusPicker}
+            status={status}
+            onStatusChange={onStatusChange}
           />
         </View>
       </View>
