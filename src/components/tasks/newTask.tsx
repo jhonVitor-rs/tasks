@@ -78,7 +78,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
 
   const onSubmit = handleSubmit((data) => {
     onSave({
-      taskId: (task as SubTask)?.taskId || 0,
+      taskId: (task as SubTask)?.taskId || "",
       name: data.name,
       body: data.body,
       status,
@@ -101,7 +101,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
             name="name"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="form-text-input border-b-2 text-xl font-semibold text-zinc-500"
+                className="form-text-input border-b-2 text-xl font-semibold text-slate-500"
                 placeholder="Untitled Task"
                 focusable
                 onBlur={onBlur}
@@ -122,7 +122,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
             name="body"
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                className="form-text-input border-b text-lg text-zinc-500 bg-zinc-800 rounded-t-xl"
+                className="form-text-input border-b text-lg text-slate-500 bg-slate-800 rounded-t-xl"
                 placeholder="Tap to add a description..."
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -141,7 +141,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
         <View className="form-field">
           <TouchableOpacity
             onPress={() => setOpenDatePicker(true)}
-            className="flex-row items-center gap-4 p-2 rounded-lg bg-zinc-800"
+            className="flex-row items-center gap-4 p-2 rounded-lg bg-slate-800"
           >
             <FontAwesome5 name="calendar-day" size={24} color="white" />
             <Text className="text-zinc-200 font-medium text-lg">
@@ -173,7 +173,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
         <View className="form-field">
           <TouchableOpacity
             onPress={() => setOpenStatusPicker(true)}
-            className="flex-row items-center p-2 rounded-lg border-2 border-zinc-600"
+            className="flex-row items-center p-2 rounded-lg border-2 border-slate-600"
             style={{ backgroundColor: StatusColor(status) }}
           >
             <Text className="text-zinc-200 text-xl font-semibold">
@@ -194,7 +194,7 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
         <View className="flex-row items-center justify-around gap-2 mt-4">
           <TouchableOpacity
             onPress={setHide}
-            className="flex-1 bg-zinc-800 border-2 border-zinc-600 rounded-xl p-2 items-center"
+            className="flex-1 bg-slate-800 border-2 border-slate-600 rounded-xl p-2 items-center"
           >
             <Text className="text-zinc-200 text-xl">Cancel</Text>
           </TouchableOpacity>

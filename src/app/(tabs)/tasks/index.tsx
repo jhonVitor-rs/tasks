@@ -55,7 +55,7 @@ export default function Tasks() {
   };
 
   return (
-    <View className="relative flex flex-col w-full min-h-screen bg-zinc-700 pb-36">
+    <View className="relative flex flex-col w-full min-h-screen bg-slate-700 pb-36">
       <Header>
         <Title title="Tasks" />
       </Header>
@@ -69,7 +69,7 @@ export default function Tasks() {
         ))}
       </ScrollView>
       <TouchableOpacity
-        className="absolute right-8 bottom-28 flex items-center justify-center bg-indigo-500 p-4 rounded-full"
+        className="absolute right-8 top-[80vh] flex items-center justify-center bg-indigo-500 p-4 rounded-full"
         onPress={() => setOpenNewTaskForm(true)}
       >
         <MaterialIcons name="add-task" size={28} color="white" />

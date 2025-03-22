@@ -248,7 +248,7 @@ export function DatePicker({
         <View className="flex-row items-center justify-around gap-2 mt-4">
           <TouchableOpacity
             onPress={setHide}
-            className="flex-1 bg-zinc-800 border-2 border-zinc-600 rounded-xl p-2 items-center"
+            className="flex-1 bg-slate-800 border-2 border-slate-600 rounded-xl p-2 items-center"
           >
             <Text className="text-zinc-200 text-xl">Cancel</Text>
           </TouchableOpacity>

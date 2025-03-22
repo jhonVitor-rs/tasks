@@ -19,7 +19,7 @@ export default function Main() {
   }, [success, error]);
 
   return (
-    <View className="flex-1 items-center justify-center bg-zinc-800">
+    <View className="flex-1 items-center justify-center bg-slate-800">
       <ActivityIndicator size={"large"} color={"white"} />
       <Text className="mt-4 text-zinc-300">Loading...</Text>
     </View>

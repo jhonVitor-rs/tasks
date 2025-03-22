@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.table-container-row {
+  @apply flex-row items-center gap-6 px-4 border-b-2;
+}
+
 .header-table {
-  @apply text-zinc-400 font-medium text-base;
+  @apply text-slate-400 font-medium text-lg;
+}
+
+.row-table {
+  @apply text-zinc-200 font-normal text-base;
 }
 
 .header-table-width {
@@ -15,7 +23,7 @@
 }
 
 .form-text-input {
-  @apply border-zinc-600 placeholder:text-zinc-600;
+  @apply border-slate-600 placeholder:text-slate-600;
 }
 
 .form-input-error {
@@ -23,7 +31,7 @@
 }
 
 .form-date-container {
-  @apply flex-1 flex-row items-center justify-between gap-2 bg-zinc-800  border-2 border-zinc-600 rounded pr-2;
+  @apply flex-1 flex-row items-center justify-between gap-2 bg-slate-800  border-2 border-slate-600 rounded pr-2;
 }
 
 .form-date-input {
@@ -31,5 +39,5 @@
 }
 
 .form-date-text {
-  @apply text-zinc-500 text-lg font-medium;
+  @apply text-slate-500 text-lg font-medium;
 }

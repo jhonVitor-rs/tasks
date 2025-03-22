@@ -56,7 +56,7 @@ export function DrawerBotton({
         <Animated.View
           style={{ transform: [{ translateY: slideAnim }] }}
           className={cn(
-            "absolute bottom-0 left-0 right-0 bg-zinc-900 rounded-t-2xl pb-5 shadow-black/20 border-t border-r border-l border-zinc-600",
+            "absolute bottom-0 left-0 right-0 bg-slate-900 rounded-t-2xl pb-5 shadow-black/20 border-t border-r border-l border-zinc-600",
             className
           )}
         >

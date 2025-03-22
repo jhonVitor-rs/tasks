@@ -12,7 +12,7 @@ export default function Header({ children, className }: HeaderNavProps) {
   return (
     <View
       className={cn(
-        "flex flex-row w-full h-16 items-center justify-start px-4 bg-zinc-900 shadow-black/10",
+        "flex flex-row w-full h-16 items-center justify-start px-4 bg-slate-900 shadow-black/10",
         className
       )}
     >
