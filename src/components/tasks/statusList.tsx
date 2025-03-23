@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { taskStatus } from "@/constants/status";
 import { Task } from "@/db/schemas/task";
 import { formatStatusLabel } from "@/utils/formatTaskStatus";
 import { StatusColor } from "@/utils/taskStatusColor";
-import { RowTasks } from "./rowTasks";
+import { List } from "./list";
+import { CardTask } from "./cardTask";
 
 interface StatusListProps {
   tasks: Task[];
@@ -16,7 +17,7 @@ export function StatusList({ tasks, status }: StatusListProps) {
   const [showTasks, setShowTasks] = useState(false);
 
   return (
-    <View className="flex-1 my-2">
+    <View className="flex-1 my-2 p-2">
       {/* Header da tabela */}
       <TouchableOpacity
         onPress={() => setShowTasks(!showTasks)}
@@ -36,37 +37,21 @@ export function StatusList({ tasks, status }: StatusListProps) {
       </TouchableOpacity>
 
       {/* Tabela de tarefas */}
-      <View className="flex-1 border-t-2 border-b-2 border-slate-900">
-        <ScrollView horizontal showsHorizontalScrollIndicator>
+      <View className="flex-1 bg-slate-800 px-2 py-4 rounded-lg">
+        {tasks.length === 0 ? (
           <View>
-            {/* Cabeçalho das tarefas */}
-            <View className="table-container-row bg-slate-800">
-              <Text className="header-table header-table-width border-r border-slate-900">
-                Name
-              </Text>
-              <Text className="header-table header-table-width border-r border-slate-900">
-                Started date
-              </Text>
-              <Text className="header-table header-table-width border-r border-slate-900">
-                End date
-              </Text>
-              <Text className="header-table header-table-width border-r border-slate-900">
-                Status
-              </Text>
-              <Text className="header-table header-table-width">Actions</Text>
-            </View>
-
-            {/* Corpo da tabela */}
-            {showTasks &&
-              tasks.map((task) => <RowTasks task={task} key={task.id} />)}
-          </View>
-        </ScrollView>
-        {tasks.length === 0 && (
-          <View className="p-2">
             <Text className="font-medium text-zinc-200 text-base text-center">
               There are no tasks in this status yet.
             </Text>
           </View>
+        ) : (
+          <List isOpen={showTasks} heigth={tasks.length}>
+            <View className="gap-3">
+              {tasks.map((task) => (
+                <CardTask key={task.id} task={task} />
+              ))}
+            </View>
+          </List>
         )}
       </View>
     </View>

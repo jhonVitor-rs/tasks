@@ -11,6 +11,10 @@ export default function TabsLayout() {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="calendar"
+        options={{ title: "Calendar", headerShown: false }}
+      />
     </Tabs>
   );
 }

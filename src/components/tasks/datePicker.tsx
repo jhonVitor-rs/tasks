@@ -238,6 +238,8 @@ export function DatePicker({
               selectedDayTextColor: "#e4e4e7",
               arrowColor: "#818cf8",
               calendarBackground: "transparent",
+              dayTextColor: "#e4e4e7",
+              textDisabledColor: "#334155",
             }}
             markingType={"period"}
             onDayPress={handleDayPress}

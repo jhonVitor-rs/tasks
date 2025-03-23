@@ -57,7 +57,7 @@ export default function Tasks() {
   return (
     <View className="relative flex flex-col w-full min-h-screen bg-slate-700 pb-36">
       <Header>
-        <Title title="Tasks" />
+        <Title title="Tasks list" />
       </Header>
       <ScrollView className="py-4">
         {Object.keys(taskStatus).map((status) => (

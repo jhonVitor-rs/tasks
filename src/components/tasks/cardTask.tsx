@@ -1,22 +1,23 @@
 import { eq } from "drizzle-orm";
-import { useState } from "react";
-import { useSQLiteContext } from "expo-sqlite";
-import { Text, TouchableOpacity, View } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
-import { NewTask, Task, tasks } from "@/db/schemas/task";
-import { formatStatusLabel } from "@/utils/formatTaskStatus";
 import { drizzle } from "drizzle-orm/expo-sqlite";
-import { StatusColor } from "@/utils/taskStatusColor";
+import { useSQLiteContext } from "expo-sqlite";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { taskStatus } from "@/constants/status";
+import { NewTask, Task, tasks } from "@/db/schemas/task";
+import { StatusColor } from "@/utils/taskStatusColor";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Entypo from "@expo/vector-icons/Entypo";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 import { TaskEditor } from "./newTask";
 import { StatusChange } from "./statusChange";
-import { SubTaskTable } from "./subTaskTable";
 
-interface RowTasks {
+interface CardTaskProps {
   task: Task;
 }
 
-export function RowTasks({ task }: RowTasks) {
+export function CardTask({ task }: CardTaskProps) {
   const expoDB = useSQLiteContext();
   const db = drizzle(expoDB);
 
@@ -63,37 +64,30 @@ export function RowTasks({ task }: RowTasks) {
   };
 
   return (
-    <View className="">
+    <View>
       <TouchableOpacity
-        className="table-container-row py-2"
+        className="flex-row items-center bg-slate-900 px-4 py-2 rounded-3xl justify-between gap-4"
         onPress={() => setOpenFormEdit(true)}
       >
-        <Text className="row-table header-table-width border-r border-zinc-900">
-          {task.name}
-        </Text>
-        <Text className="row-table header-table-width border-r border-zinc-900">
+        <Text className="row-table text-xl">{task.name}</Text>
+        <Text className="row-table text-lg">
           {task.startDate.toLocaleDateString()}
         </Text>
-        <Text className="row-table header-table-width border-r border-zinc-900">
-          {task.endDate
-            ? task.endDate.toLocaleDateString()
-            : task.startDate.toLocaleDateString()}
-        </Text>
-        <Text className="header-table-width border-r border-zinc-900">
+        <Text>
           <TouchableOpacity
             onPress={() => setOpenStatusEditor(true)}
-            className="py-2 px-3 rounded-md"
+            className="p-1 rounded-3xl"
             style={{ backgroundColor: StatusColor(task.status as taskStatus) }}
           >
-            <Text className="row-table">{formatStatusLabel(task.status)}</Text>
+            {StatusIcon(task.status as taskStatus)}
           </TouchableOpacity>
         </Text>
-        <Text className="header-table-width">
+        <Text className="">
           <TouchableOpacity
-            className="bg-red-500 p-2 rounded-3xl"
+            className="bg-red-500 p-1 rounded-3xl"
             onPress={deleteTask}
           >
-            <Feather name="trash-2" size={24} color="#27272a" />
+            <Feather name="trash-2" size={22} color="#27272a" />
           </TouchableOpacity>
         </Text>
       </TouchableOpacity>
@@ -116,4 +110,20 @@ export function RowTasks({ task }: RowTasks) {
       />
     </View>
   );
+}
+
+function StatusIcon(status: taskStatus) {
+  switch (status) {
+    case taskStatus.TO_DO:
+      return <MaterialIcons name="work-outline" size={22} color="#e4e4e7" />;
+    case taskStatus.IN_PROGRESS:
+      return <Entypo name="progress-two" size={22} color="#e4e4e7" />;
+    case taskStatus.PAUSED:
+      return <AntDesign name="pausecircleo" size={22} color="#e4e4e7" />;
+    case taskStatus.COMPLETED:
+      return <MaterialIcons name="task-alt" size={22} color="#e4e4e7" />;
+    case taskStatus.CANCELED:
+    default:
+      return <MaterialIcons name="cancel" size={22} color="#e4e4e7" />;
+  }
 }
