@@ -1,8 +1,9 @@
 import { taskStatus } from "@/constants/status";
-import { Task, tasks } from "@/db/schemas/task";
+import { NewTask, Task, tasks } from "@/db/schemas/task";
 import { formatDateToString } from "@/utils/formatDate";
 import { StatusColor } from "@/utils/taskStatusColor";
 import { drizzle, useLiveQuery } from "drizzle-orm/expo-sqlite";
+import { year } from "drizzle-orm/mysql-core";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useEffect, useState } from "react";
 import { DateData } from "react-native-calendars";
@@ -22,39 +23,55 @@ export function TasksToday({ date }: TasksTodayProps) {
   });
 
   const [tasksDay, setTasksDay] = useState<Task[]>();
+  const [openNewTaskForm, setOpenNewTaskForm] = useState(false);
+  const hideForm = () => setOpenNewTaskForm(false);
 
   const expoDB = useSQLiteContext();
   const db = drizzle(expoDB);
 
   const { data } = useLiveQuery(db.select().from(tasks).orderBy(tasks.status));
 
+  const isTaskOnDay = (task: Task, selectedDay: DateData) => {
+    const taskStart =
+      task.startDate instanceof Date
+        ? task.startDate
+        : new Date(task.startDate);
+
+    const taskStartDate = {
+      day: taskStart.getDate(),
+      month: taskStart.getMonth() + 1,
+      year: taskStart.getFullYear(),
+    };
+
+    if (!task.endDate) {
+      return (
+        taskStartDate.day === selectedDay.day &&
+        taskStartDate.month === selectedDay.month &&
+        taskStartDate.year === selectedDay.year
+      );
+    }
+
+    const taskEnd =
+      task.endDate instanceof Date ? task.endDate : new Date(task.endDate);
+
+    const taskEndDate = {
+      day: taskEnd.getDate(),
+      month: taskEnd.getMonth() + 1,
+      year: taskEnd.getFullYear(),
+    };
+
+    return (
+      taskStartDate.year <= selectedDay.year &&
+      taskEndDate.year >= selectedDay.year &&
+      taskStartDate.month <= selectedDay.month &&
+      taskEndDate.month >= selectedDay.month &&
+      taskStartDate.day <= selectedDay.day &&
+      taskEndDate.day >= selectedDay.day
+    );
+  };
+
   useEffect(() => {
-    setTasksDay(() => {
-      return data.filter((task) => {
-        const taskStartTimestamp =
-          task.startDate instanceof Date
-            ? task.startDate.getTime()
-            : task.startDate;
-
-        const selectedDayMidnight = () => {
-          const d = new Date(selectedDay.dateString);
-          d.setHours(0, 0, 0, 0);
-          return d.getTime();
-        };
-
-        if (!task.endDate) {
-          return taskStartTimestamp === selectedDayMidnight();
-        }
-
-        const taskEndTimestamp =
-          task.endDate instanceof Date ? task.endDate.getTime() : task.endDate;
-
-        return (
-          taskStartTimestamp <= selectedDayMidnight() &&
-          selectedDayMidnight() <= taskEndTimestamp
-        );
-      });
-    });
+    setTasksDay(() => data.filter((task) => isTaskOnDay(task, selectedDay)));
   }, [data, selectedDay]);
 
   const genMarkedPeriods = useCallback(() => {
@@ -63,6 +80,7 @@ export function TasksToday({ date }: TasksTodayProps) {
     if (!data || !Array.isArray(data)) return markedDates;
 
     data.forEach((task) => {
+      console.log(task);
       const startDate =
         task.startDate instanceof Date
           ? formatDateToString(task.startDate)
@@ -91,7 +109,9 @@ export function TasksToday({ date }: TasksTodayProps) {
             : task.endDate;
 
         const start = new Date(startDate);
+        start.setDate(start.getDate() + 1);
         const end = new Date(endDate);
+        end.setDate(end.getDate() + 1);
         const currentDay = new Date(start);
 
         const periodColor = StatusColor(task.status as taskStatus);
@@ -135,9 +155,31 @@ export function TasksToday({ date }: TasksTodayProps) {
     return markedDates;
   };
 
+  const createTask = async (newTask: NewTask) => {
+    try {
+      await db.insert(tasks).values({
+        name: newTask.name,
+        body: newTask.body,
+        status: newTask.status,
+        startDate: newTask.startDate,
+        endDate: newTask.endDate,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      hideForm();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return {
+    keyForm: data.length,
     tasksDay,
     setSelectedDay,
     getMarkedDates,
+    openNewTaskForm,
+    setOpenNewTaskForm,
+    hideForm,
+    createTask,
   };
 }

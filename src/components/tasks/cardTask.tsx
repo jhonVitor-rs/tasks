@@ -12,12 +12,14 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import { TaskEditor } from "./newTask";
 import { StatusChange } from "./statusChange";
+import { cn } from "@/utils/cn";
 
 interface CardTaskProps {
   task: Task;
+  className?: string;
 }
 
-export function CardTask({ task }: CardTaskProps) {
+export function CardTask({ task, className }: CardTaskProps) {
   const expoDB = useSQLiteContext();
   const db = drizzle(expoDB);
 
@@ -64,7 +66,7 @@ export function CardTask({ task }: CardTaskProps) {
   };
 
   return (
-    <View>
+    <View className={cn(className)}>
       <TouchableOpacity
         className="flex-row items-center bg-slate-900 px-4 py-2 rounded-3xl justify-between gap-4"
         onPress={() => setOpenFormEdit(true)}
