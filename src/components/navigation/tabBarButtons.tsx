@@ -19,6 +19,9 @@ interface Props extends PressableProps {
 const icons = {
   Tasks: (props: any) => <FontAwesome5 name="tasks" size={24} {...props} />,
   Calendar: (props: any) => <AntDesign name="calendar" size={24} {...props} />,
+  Notes: (props: any) => (
+    <FontAwesome5 name="sticky-note" size={24} {...props} />
+  ),
 };
 
 export function TabBarButtom(props: Props) {
