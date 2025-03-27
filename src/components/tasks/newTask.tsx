@@ -2,7 +2,6 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { NewSubTask, SubTask } from "@/db/schemas/subtasks";
 import { NewTask, Task } from "@/db/schemas/task";
 import { DrawerBotton } from "../ui/drawerBotton";
 import { taskStatus } from "@/constants/status";
@@ -16,8 +15,8 @@ import { StatusChange } from "./statusChange";
 interface TaskEditorProps {
   open: boolean;
   setHide: () => void;
-  task?: Task | SubTask;
-  onSave: (task: NewTask | NewSubTask) => void;
+  task?: Task;
+  onSave: (task: NewTask) => void;
 }
 
 const taskForm = z.object({
@@ -44,7 +43,6 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
     formState: { errors },
     setValue,
     watch,
-    reset,
   } = useForm<z.infer<typeof taskForm>>({
     resolver: zodResolver(taskForm),
     defaultValues: {
@@ -78,7 +76,6 @@ export function TaskEditor({ open, setHide, task, onSave }: TaskEditorProps) {
 
   const onSubmit = handleSubmit((data) => {
     onSave({
-      taskId: (task as SubTask)?.taskId || "",
       name: data.name,
       body: data.body,
       status,

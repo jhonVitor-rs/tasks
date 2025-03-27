@@ -1,12 +1,31 @@
 import { useEffect, useState } from "react";
 import { Keyboard, Platform, Text, View } from "react-native";
 import RichEditor from "@/components/notes/richEditor";
-import { Stack } from "expo-router";
+import { Stack, useGlobalSearchParams } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { Note, notes } from "@/db/schemas/notes";
+import { eq } from "drizzle-orm";
 
-export default function Note() {
+export default function NoteEditor() {
+  const expoDB = useSQLiteContext();
+  const db = drizzle(expoDB);
+  const { "note-id": noteId } = useGlobalSearchParams<{ "note-id": string }>();
+
+  const [title, setTitle] = useState("");
   const [editorState, setEditorState] = useState<string | null>(null);
   const [plainText, setPlainText] = useState("");
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  const fetchNote = async () => {
+    const [note] = await db
+      .select()
+      .from(notes)
+      .where(eq(notes.id, noteId))
+      .limit(1);
+    setTitle(note.title);
+    setEditorState(note.content);
+  };
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -23,11 +42,17 @@ export default function Note() {
       }
     );
 
+    fetchNote();
+
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
   }, []);
+
+  const onSave = (note: Note) => {
+    db;
+  };
 
   return (
     <>

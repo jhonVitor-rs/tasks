@@ -43,6 +43,13 @@
       "when": 1742659778164,
       "tag": "0005_new_king_cobra",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1743084874603,
+      "tag": "0006_striped_azazel",
+      "breakpoints": true
     }
   ]
 }
