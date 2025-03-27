@@ -67,7 +67,6 @@ export function CodeBlocks({ blockType }: CodeBlocksProps) {
           editor.update(() => {
             const selection = $getSelection();
             if ($isRangeSelection(selection)) {
-              console.log(blockType);
               if (blockType === "paragraph") {
                 const quoteNode = $createQuoteNode();
                 if (selection.isCollapsed()) {

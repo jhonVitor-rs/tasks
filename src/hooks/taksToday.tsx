@@ -80,7 +80,6 @@ export function TasksToday({ date }: TasksTodayProps) {
     if (!data || !Array.isArray(data)) return markedDates;
 
     data.forEach((task) => {
-      console.log(task);
       const startDate =
         task.startDate instanceof Date
           ? formatDateToString(task.startDate)

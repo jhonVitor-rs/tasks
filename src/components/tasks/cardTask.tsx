@@ -61,7 +61,7 @@ export function CardTask({ task, className }: CardTaskProps) {
     try {
       await db.delete(tasks).where(eq(tasks.id, task.id));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
